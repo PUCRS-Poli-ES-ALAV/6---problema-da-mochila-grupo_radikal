@@ -1,6 +1,7 @@
 import itertools
 import time
 
+iterations = 0
 cases = {
     0: ([(12, 4), (2, 1), (1, 1), (1, 2), (4, 10)], 
         15),
@@ -13,32 +14,34 @@ cases = {
 }
 
 def brute_force(capacity:int, items: tuple[int,int]) -> int:
-    max_price = max_weight = float('-inf')
-    max_backpack = []
-        
-    for perms in itertools.permutations(items):
-        backpack = []
+    global iterations
+    max_price = float('-inf')
+    
+    for perms in itertools.permutations(items):        
         weight = price = 0
         for block in perms:
+            iterations += 1
+            
             if weight + block[0] > capacity:
                 break
-            
             weight += block[0]
-            price += block[1]
-            backpack.append(block[0])
+            price  += block[1]
                 
         if price > max_price:
-            max_price = price
-            max_backpack = backpack
-            max_weight = weight
+            max_price = price            
+    return max_price
 
 def main():
+    global iterations
     for i in cases:
         items, capacity = cases[i]
+        iterations = 0
         
         start = time.time()
-        print(f"\nMax price for case {i}: {brute_force(capacity, items)}")
+        max_price = brute_force(capacity, items)
+        print(f"\nMax price for case {i}: {max_price}")
         print(f"Time for case {i}: {time.time() - start} seconds")
+        print(f"Iterations for case {i}: {iterations}")
         
 if __name__ == "__main__":
     main()
