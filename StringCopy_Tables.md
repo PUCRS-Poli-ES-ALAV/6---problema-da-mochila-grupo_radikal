@@ -2,6 +2,7 @@
 
 ## Case 0
 $s_1 =$ "Casablanca"
+
 $s_2 =$ "Portentoso"
 
 **Cost = 10**
